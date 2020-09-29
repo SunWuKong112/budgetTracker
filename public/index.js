@@ -1,6 +1,15 @@
 let transactions = [];
 let myChart;
 
+if (navigator.serviceWorker){
+ window.addEventListener("load", ()=>{
+   navigator.serviceWorker
+    .register("./service-worker.js")
+    .then(reg=> console.log("Service worker: Registered"))
+    .catch(err=>console.log(`Service worker: Error: ${err}`));
+ });
+}
+
 fetch("/api/transaction")
   .then(response => {
     return response.json();
@@ -13,6 +22,7 @@ fetch("/api/transaction")
     populateTable();
     populateChart();
   });
+
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
