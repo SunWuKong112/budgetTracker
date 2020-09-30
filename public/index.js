@@ -5,24 +5,19 @@ if (navigator.serviceWorker){
  window.addEventListener("load", ()=>{
    navigator.serviceWorker
     .register("./service-worker.js")
-    .then(reg=> console.log("Service worker: Registered"))
-    .catch(err=>console.log(`Service worker: Error: ${err}`));
  });
 }
 
 fetch("/api/transaction")
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    // save db data on global variable
-    transactions = data;
+.then(response => response.json())
+.then(data => {
+  // save db data on global variable
+  transactions = data;
 
-    populateTotal();
-    populateTable();
-    populateChart();
-  });
-
+  populateTotal();
+  populateTable();
+  populateChart();
+});
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
@@ -108,6 +103,8 @@ function sendTransaction(isAdding) {
     value: amountEl.value,
     date: new Date().toISOString()
   };
+
+
 
   // if subtracting funds, convert amount to negative number
   if (!isAdding) {
